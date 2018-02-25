@@ -20,38 +20,39 @@ struct Node {
 bool exist[maxn];
 
 int cmp1(Node a, Node b) {
-	return a.num < b.num;
+	return a.num < b.num; // 用num区分两条链表
 } 
 
 int main() {
-	int begin, n, cnt1 = 1, cnt2 = 1, a;
+	int begin, n, cnt1 = 1, cnt2 = 1, a;// 两种结果分别的个数
 	cin >> begin >> n;
 
-	for(int i = 0; i < maxn; i++) node[i].num = 2 * maxn;// inf
+	for(int i = 0; i < maxn; i++) node[i].num = 2 * maxn;// 费空间 分成两部分存储
+	// 初始化排序数组 inf
 
 	for(int i = 0; i < n; i++) {
 		cin >> a;
 		cin >> node[a].key >> node[a].next;
-		node[a].address = a;
+		node[a].address = a; // node[12345].address = 12345 方便输出
 	}
 
-	for(int i = begin; i != -1; i = node[i].next) {
+	for(int i = begin; i != -1; i = node[i].next) { // i！=-1 i=node[i].snext
 		int k = abs(node[i].key);
 		
 		if( exist[k] == false ) {
 			exist[k] = true;
 			node[i].num = cnt1++;
 		}
-		else node[i].num = maxn + cnt2++;
+		else node[i].num = maxn + cnt2++;// 费空间 分成两部分
 	}
 	// 用num区分两条链表
-	sort(node, node + maxn, cmp1);
+	sort(node, node + maxn, cmp1);// 合并
 
 	int cnt = cnt1 + cnt2;
 	for(int i = 0; i < cnt; i++) {
 		if( i != cnt1 && i != cnt)
 			printf("%05d %d %05d\n", 
-				node[i].address, node[i].key, node[i+1].address);
+				node[i].address, node[i].key, node[i+1].address); // i+1
 		else printf("%05d %d -1\n", node[i].address, node[i].key);
 		// cnt1一处-1  cnt处一个-1
 	} 

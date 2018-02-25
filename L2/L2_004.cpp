@@ -25,8 +25,8 @@ const int maxn = 100005;
 
 */
 bool isMirror;
-std::vector<int> pre;
-std::vector<int> post;
+std::vector<int> pre;  // 前序遍历
+std::vector<int> post; // 后序遍历
 // 将已知的前序转换为后序
 //1）8 6 5 7 10 8 11
 //2）8 10 11 8 6 7 5
@@ -38,7 +38,7 @@ void getpost(int root, int tail) { // 头结点 尾结点
 	if( !isMirror ) {
 		while( i <= tail && pre[root] >= pre[i]) i++; // 6 5 7 10<-
 		while( j > root && pre[root] <= pre[j]) j--; // 11 8 10 7<-
-	} else {
+	} else { // 翻转的
 		while( i <= tail && pre[root] <= pre[i]) i++;
 		while( j > root && pre[root] > pre[j]) j--;
 	} 
@@ -55,7 +55,7 @@ int main() {
 	for(int i = 0; i < n; i++) cin >> pre[i]; // 输入前序遍历
     
     getpost(0, n - 1);
-	if( post.size() != n) { // 重新再转换一次
+	if( post.size() != n) { // 转换节点不全 后序数组长度不为n 重新再转换一次
 
 		isMirror = true; // 查找镜像的
 		post.clear(); // 清空后序数组
